@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A letter for you</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#f6cdd6; --pink-soft:#fdf0f2; --pink-deep:#d9899f;
+  --brown:#d9bfa0; --brown-deep:#8c6446; --ink:#4a3a2f; --paper:#fbf1e2;
+  --bg:#f7ead8; --card:#fbf1e2; --text:#4a3a2f; --cap:#4a3a2f;
+  --g1:#fbeee0; --g2:#f6e1d3; --g3:#f8d9e0;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#2b2220;--card:#3d2f2a;--text:#f7e6dc;--paper:#3d2f2a;--brown-deep:#a07250;--g1:#231b19;--g2:#2e2321;--g3:#3a2a2f}
+}
+:root[data-theme="dark"]{--bg:#2b2220;--card:#3d2f2a;--text:#f7e6dc;--paper:#3d2f2a;--brown-deep:#a07250;--g1:#231b19;--g2:#2e2321;--g3:#3a2a2f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--text);font-family:'Fraunces',Georgia,serif;
+  background-image:linear-gradient(160deg,var(--g1),var(--g2) 55%,var(--g3));background-attachment:fixed;overflow-x:hidden}
+.hand{font-family:'Caveat','Comic Sans MS',cursive}
+.page{display:none;min-height:100vh;min-height:100dvh;padding:20px 16px 56px}
+.page.on{display:block}
+button{font:inherit;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--brown-deep);outline-offset:3px}
+
+/* ---- Page 1: envelope ---- */
+#p1.on{display:grid;place-items:center;text-align:center}
+#p1 h1{font-weight:500;font-size:clamp(1.7rem,7vw,2.4rem);margin:0 0 4px}
+#p1 p{margin:0 0 34px;font-size:1.4rem}
+.env{position:relative;display:block;width:min(82vw,340px);aspect-ratio:3/2;margin:0 auto;border:0;background:none;padding:0;animation:bob 3s ease-in-out infinite}
+.env span{position:absolute;inset:0}
+.env .back{background:#cfae85;border-radius:8px;box-shadow:0 16px 34px rgba(140,100,60,.3)}
+.env .note{background:var(--paper);inset:8% 8% 10%;border-radius:4px;transition:transform .7s .35s ease;display:grid;place-items:center;font-size:2rem}
+.env .front{background:linear-gradient(135deg,transparent 49.5%,#c29d72 50%) left/50% 100% no-repeat,linear-gradient(225deg,transparent 49.5%,#c29d72 50%) right/50% 100% no-repeat;border-radius:8px}
+.env .front::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#e3c9a3 0 55%,transparent 55%);clip-path:polygon(0 100%,50% 40%,100% 100%)}
+.env .flap{background:var(--pink-deep);clip-path:polygon(0 0,100% 0,50% 58%);transform-origin:top;transition:transform .6s ease;z-index:3}
+.env .seal{inset:auto;left:50%;top:48%;transform:translate(-50%,-50%);z-index:4;font-size:1.8rem;transition:opacity .3s}
+.env.open{animation:none}
+.env.open .flap{transform:rotateX(180deg);z-index:0}
+.env.open .note{transform:translateY(-48%)}
+.env.open .seal{opacity:0}
+@keyframes bob{50%{transform:translateY(-8px)}}
+
+/* ---- Page 2: letter ---- */
+#p2{position:relative}
+.petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.petals i{position:absolute;top:-30px;font-style:normal;opacity:.55;animation:drift linear infinite}
+@keyframes drift{to{transform:translate(40px,112vh) rotate(300deg)}}
+.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto}
+.player{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:6;display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid rgba(160,120,80,.25);border-radius:999px;padding:7px 16px 7px 8px;box-shadow:0 6px 18px rgba(120,80,50,.15)}
+.vinyl{position:relative;width:48px;height:48px;flex:none}
+.disc{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,var(--pink-deep) 0 20%,#2f221c 21% 24%,transparent 25%),repeating-radial-gradient(#3b2c25 0 2px,#4e3b31 2px 4px)}
+.disc.spin{animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.play{position:absolute;inset:0;margin:auto;width:26px;height:26px;border-radius:50%;border:0;background:var(--pink);color:#4a3a2f;font-size:.7rem;padding:0}
+.meta{flex:1;min-width:0}
+.title{font-size:1.2rem;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player input[type=range]{width:100%;accent-color:var(--pink-deep);margin:2px 0 0;height:18px}
+.pick{font-size:.78rem;text-decoration:underline;cursor:pointer;color:var(--brown-deep);flex:none;position:relative}
+.pick input{position:absolute;opacity:0;width:1px;height:1px}
+.hero{text-align:center;margin:34px 0 22px}
+.hero h1{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.6rem,13vw,3.6rem);line-height:1;margin:0;color:var(--pink-deep)}
+.hero p{margin:8px 0 0;font-size:1.3rem;opacity:.8}
+.paper{position:relative;margin:30px 0 0;background-color:var(--paper);border-radius:4px 4px 12px 12px;padding:32px 20px 8px 42px;
+  box-shadow:0 14px 34px rgba(120,80,50,.18),0 2px 0 rgba(255,255,255,.5) inset;
+  background-image:linear-gradient(90deg,transparent 30px,rgba(217,137,159,.55) 30px 31px,transparent 31px),repeating-linear-gradient(transparent 0 31px,rgba(160,120,80,.22) 31px 32px);
+  font-size:clamp(1.4rem,5.6vw,1.65rem);line-height:32px}
+.paper p{margin:0 0 32px}
+.paper .to{color:var(--pink-deep);font-weight:700;font-size:1.15em}
+.paper .sign{text-align:right;margin-bottom:24px}
+.tape{position:absolute;top:-13px;width:96px;height:28px;background:rgba(246,205,214,.88);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.tape.a{left:-16px;transform:rotate(-32deg)}.tape.b{right:-16px;transform:rotate(32deg);background:rgba(217,191,160,.9)}
+.stamp{position:absolute;right:16px;top:14px;width:46px;height:54px;border:2px dashed var(--pink-deep);border-radius:4px;display:grid;place-items:center;font-size:1.5rem;transform:rotate(6deg);opacity:.85}
+.rv{opacity:0;transform:translateY(16px);filter:blur(3px);transition:opacity .9s,transform .9s,filter .9s}
+.rv.in{opacity:1;transform:none;filter:none}
+.cue{text-align:center;margin:30px 0 0;font-size:1.5rem;animation:bob 2s ease-in-out infinite}
+.scrap{margin-top:34px;padding:26px 14px 6px;background:rgba(246,205,214,.35);border-radius:18px;border:2px dashed rgba(217,137,159,.55)}
+.scrap h2{font-family:'Caveat',cursive;font-weight:700;font-size:2.3rem;text-align:center;margin:0;color:var(--brown-deep)}
+.scrap>p{text-align:center;margin:0 0 26px;font-size:1.25rem}
+.photos{display:flex;flex-direction:column}
+.pol{position:relative;width:76%;background:#fff;padding:8px 8px 10px;margin-bottom:34px;box-shadow:0 10px 22px rgba(120,80,50,.22);
+  opacity:0;transform:translateY(60px) scale(1.08) rotate(var(--r));transition:opacity .8s,transform .8s cubic-bezier(.2,.9,.3,1.2)}
+.pol:nth-child(odd){align-self:flex-start}.pol:nth-child(even){align-self:flex-end}
+.pol::before{content:"";position:absolute;top:-12px;left:50%;width:70px;height:24px;margin-left:-35px;background:rgba(217,191,160,.9);transform:rotate(-4deg);z-index:2}
+.pol.in{opacity:1;transform:rotate(var(--r))}
+.pol label{display:grid;place-items:center;aspect-ratio:1;background:linear-gradient(135deg,var(--pink),var(--brown));cursor:pointer;overflow:hidden;color:#fff;text-align:center;padding:8px;font-size:1.1rem}
+.pol img{width:100%;height:100%;object-fit:cover;display:block}
+.pol input{position:absolute;opacity:0;width:1px;height:1px}
+.pol .cap{display:block;text-align:center;color:#4a3a2f;font-size:1.35rem;margin-top:6px}
+.cta{display:block;margin:30px auto 0;border:0;border-radius:999px;background:var(--pink-deep);color:#fff;font-size:1.6rem;padding:12px 34px;box-shadow:0 8px 20px rgba(217,137,159,.45);animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.05)}}
+
+/* ---- Pages 3 & 4 ---- */
+#p3.on,#p4.on{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#p3 h1,#p4 h1{font-weight:500;font-size:clamp(1.8rem,8vw,3rem);margin:0 0 10px;max-width:14em}
+#msg{min-height:2em;font-size:1.5rem;margin:0 0 22px;color:var(--brown-deep)}
+.btns{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;max-width:100%}
+.btn{border:0;border-radius:999px;color:#fff;transition:font-size .25s;max-width:100%}
+#yes{background:var(--brown-deep);font-size:min(var(--ys,1.5rem),15vw);padding:.5em 1.3em}
+#no{background:var(--pink-deep);font-size:var(--ns,1.5rem);padding:.5em 1.3em;min-height:0}
+#no.gone{display:none}
+.cat{font-size:4rem;margin-bottom:6px}
+.fall{position:fixed;top:-40px;pointer-events:none;animation:fall linear forwards;z-index:20}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+@media (min-width:600px){.page{padding-top:36px}.pol{width:62%}}
+@media (prefers-reduced-motion:reduce){.env,.cue,.cta,.disc.spin{animation:none}.pol{transition:none;opacity:1;transform:rotate(var(--r))}.rv{opacity:1;transform:none;filter:none;transition:none}.petals,.fall{display:none}}
+</style>
+</head>
+<body>
+
+<section class="page on" id="p1">
+  <div>
+    <h1>You’ve got mail</h1>
+    <p class="hand">tap the envelope</p>
+    <button class="env" id="env" aria-label="Open the envelope">
+      <span class="back"></span><span class="note">💗</span><span class="front"></span><span class="flap"></span><span class="seal">💌</span>
+    </button>
+  </div>
+</section>
+
+<section class="page" id="p2">
+  <div class="petals" id="petals" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="player">
+      <div class="vinyl"><span class="disc" id="disc"></span><button class="play" id="play" aria-label="Play or pause song">▶</button></div>
+      <div class="meta">
+        <div class="title hand" id="songTitle">Our song</div>
+        <input type="range" id="seek" min="0" max="100" value="0" aria-label="Song position">
+      </div>
+      <label class="pick" id="pickWrap">add song<input type="file" accept="audio/*" id="songFile"></label>
+    </div>
+    <audio id="audio" preload="none"></audio>
+
+    <header class="hero">
+      <h1>For you</h1>
+      <p class="hand" id="date"></p>
+    </header>
+
+    <article class="paper hand">
+      <span class="tape a"></span><span class="tape b"></span><span class="stamp" aria-hidden="true">💗</span>
+      <p class="rv to">Dear Faye,</p>
+      <p class="rv">Dear Faye,
+
+I’ve made a little something for you because you deserve to be poured with love and affection. I’m not very sure how should I start this letter but I know that by the end of all this, I want you to be mine. I’ve grown connected with you as days passes by and the fact that nothing felt heavy and complicated when i’m with you tells me enough that you are the one that I have been searching for.
+You are like the missing puzzle in my sorrow heart that yearned 
+for a love that could be playful, daring, sweet and loving. To find a perfect match 
+is impossible, but two of us could make our own possibilities together. Where were
+ you when all along I belonged to you. You’re the air I need that i’m dying to breathe in.
+  Was it ever too fast with somebody you are certain with? I guess this letter clears the 
+  answer. If you take me, I will dedicate my heart for you, dedicate my time, dedicate my 
+  soul just for you, Faye. Relationships are unpredictable and rarely easy, but I want to 
+  navigate all of those uncertainties with you. The joy you make me feel is unlike any other
+  , I’m literally wrapped around your finger.
+</p>
+      <p class="rv sign">A Guy From Insta Suggestion,
+,<br>Rafael 🤍</p>
+    </article>
+
+    <div class="cue hand" aria-hidden="true">scroll down ↓</div>
+
+    <section class="scrap">
+      <h2>Pictures corner</h2>
+      <p class="hand">little moments, just for you</p>
+      <div class="photos" id="photos"></div>
+    </section>
+
+    <button class="cta hand" id="next">One more thing… 💌</button>
+  </div>
+</section>
+
+<section class="page" id="p3">
+  <div class="cat">🐱</div>
+  <h1>Will you be my girlfriend?</h1>
+  <p id="msg" class="hand" aria-live="polite"></p>
+  <div class="btns">
+    <button class="btn hand" id="yes">Yes 💗</button>
+    <button class="btn hand" id="no">No</button>
+  </div>
+</section>
+
+<section class="page" id="p4">
+  <div class="cat">🥹</div>
+  <h1>She said yes!</h1>
+  <p class="hand" style="font-size:1.8rem;margin:0">Thank you. You just made my whole year. 💗</p>
+</section>
+
+<script>
+/* ============ EDIT ME ============ */
+const CONFIG = {
+  song: "song.aac",
+  songTitle: "Never Let Go - LNGSHOT",
+  date: "12 November 2026",
+  photos: [
+    { src: "photos/IMG_0793.jpg", caption: "i love you" },
+    { src: "photos/IMG_0792.jpg", caption: "yours" },
+    { src: "photos/IMG_0794.jpg", caption: "flowers 4 you" },
+    { src: "photos/IMG_0796.jpg", caption: "us, hopefully" }
+  ],
+  noMessages: ["Are you sure? 🥺","Think again…","Please? 🥹","I’ll bring snacks!","Really really?","Last chance… 😢","Okay now you’re just teasing","Pretty please 💗"]
+};
+/* ================================= */
+
+const $ = id => document.getElementById(id);
+const show = id => {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  $(id).classList.add('on');
+  window.scrollTo(0, 0);
+};
+$('date').textContent = CONFIG.date;
+
+/* floating petals */
+['🌸','🤍','💗','🌷'].forEach((e, k) => {
+  for (let i = 0; i < 3; i++) {
+    const s = document.createElement('i');
+    s.textContent = e;
+    s.style.left = Math.random() * 95 + 'vw';
+    s.style.fontSize = (.9 + Math.random() * .9) + 'rem';
+    s.style.animationDuration = (14 + Math.random() * 12) + 's';
+    s.style.animationDelay = (-Math.random() * 20) + 's';
+    $('petals').appendChild(s);
+  }
+});
+
+/* reveal on scroll */
+function reveal(sel, threshold) {
+  const items = document.querySelectorAll(sel);
+  if (!('IntersectionObserver' in window)) { items.forEach(i => i.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }), { threshold });
+  items.forEach(i => io.observe(i));
+}
+
+/* envelope → letter */
+const audio = $('audio');
+$('env').addEventListener('click', e => {
+  e.currentTarget.classList.add('open');
+  if (CONFIG.song) audio.play().then(syncPlay).catch(() => {});
+  setTimeout(() => { show('p2'); reveal('.rv', .3); reveal('.pol', .2); }, 1300);
+});
+
+/* audio player */
+$('songTitle').textContent = CONFIG.songTitle;
+if (CONFIG.song) { audio.src = CONFIG.song; $('pickWrap').style.display = 'none'; }
+function syncPlay() {
+  $('play').textContent = audio.paused ? '▶' : '❚❚';
+  $('disc').classList.toggle('spin', !audio.paused);
+}
+$('play').addEventListener('click', () => {
+  if (!audio.src) { $('songFile').click(); return; }
+  audio.paused ? audio.play().catch(() => {}) : audio.pause();
+});
+['play', 'pause', 'ended'].forEach(ev => audio.addEventListener(ev, syncPlay));
+audio.addEventListener('timeupdate', () => { if (audio.duration) $('seek').value = audio.currentTime / audio.duration * 100; });
+$('seek').addEventListener('input', e => { if (audio.duration) audio.currentTime = e.target.value / 100 * audio.duration; });
+$('songFile').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  audio.src = URL.createObjectURL(f);
+  $('songTitle').textContent = f.name.replace(/\.[^.]+$/, '');
+  audio.play().catch(() => {});
+});
+
+/* pictures corner */
+CONFIG.photos.forEach((p, i) => {
+  const d = document.createElement('div');
+  d.className = 'pol';
+  d.style.setProperty('--r', ((i % 2 ? 1 : -1) * (2 + i % 3)) + 'deg');
+  const lab = document.createElement('label');
+  if (p.src) {
+    const im = document.createElement('img'); im.src = p.src; im.alt = p.caption; lab.appendChild(im);
+  } else {
+    lab.textContent = 'tap to add a photo';
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.addEventListener('change', () => {
+      const f = inp.files[0]; if (!f) return;
+      const im = document.createElement('img'); im.src = URL.createObjectURL(f); im.alt = p.caption;
+      lab.textContent = ''; lab.appendChild(im); lab.appendChild(inp);
+    });
+    lab.appendChild(inp);
+  }
+  const cap = document.createElement('span'); cap.className = 'cap hand'; cap.textContent = p.caption;
+  d.append(lab, cap); $('photos').appendChild(d);
+});
+
+/* next → question */
+$('next').addEventListener('click', () => show('p3'));
+
+/* yes / no */
+let clicks = 0;
+$('no').addEventListener('click', () => {
+  clicks++;
+  const ns = Math.max(1.5 - clicks * .18, .4);
+  const ys = Math.min(1.5 + clicks * .5, 7);
+  $('no').style.setProperty('--ns', ns + 'rem');
+  $('yes').style.setProperty('--ys', ys + 'rem');
+  $('msg').textContent = CONFIG.noMessages[(clicks - 1) % CONFIG.noMessages.length];
+  if (ns <= .4) $('no').classList.add('gone');
+});
+$('yes').addEventListener('click', () => { show('p4'); confetti(); });
+
+function confetti() {
+  const e = ['💗','🌸','🤍','🌷','💌','✨'];
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('span');
+    s.className = 'fall'; s.textContent = e[i % e.length];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.fontSize = (1 + Math.random() * 1.6) + 'rem';
+    s.style.animationDuration = (3 + Math.random() * 3) + 's';
+    s.style.animationDelay = Math.random() * 1.5 + 's';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 8000);
+  }
+}
+</script>
+</body>
+</html>
